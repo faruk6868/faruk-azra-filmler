@@ -60,6 +60,9 @@ function initializeApp() {
     watchlistFilterBy.addEventListener('change', displayWatchlist);
     watchlistSortBy.addEventListener('change', displayWatchlist);
     
+    // İlk sekmesini aktif hale getir
+    initializeTabs();
+    
     // Firebase bağlantısını kontrol et
     checkFirebaseConnection();
     
@@ -136,6 +139,27 @@ function setupFirebaseListeners() {
         displayWatchlist();
         updateStats();
     });
+}
+
+// Sekmesi başlat (sayfa yüklenirken)
+function initializeTabs() {
+    // İlk tab aktif olsun
+    currentTab = 'watched';
+    
+    // Tüm tab'ları sıfırla
+    document.getElementById('watchedForm').classList.remove('hidden');
+    document.getElementById('watchedStats').classList.remove('hidden');
+    document.getElementById('watchedFilter').classList.remove('hidden');
+    document.getElementById('watchedMovies').classList.remove('hidden');
+    
+    document.getElementById('watchlistForm').classList.add('hidden');
+    document.getElementById('watchlistStats').classList.add('hidden');
+    document.getElementById('watchlistFilter').classList.add('hidden');
+    document.getElementById('watchlistMovies').classList.add('hidden');
+    
+    // İlk tab butonunu aktif yap
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector('.tab-btn[onclick="switchTab(\'watched\')"]').classList.add('active');
 }
 
 // Sekme değiştir
