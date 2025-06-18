@@ -22,8 +22,20 @@
             </div>
         </header>
 
-        <div class="add-movie-section">
-            <h2><i class="fas fa-plus-circle"></i> Yeni Film Ekle</h2>
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('watched')">
+                    <i class="fas fa-check-circle"></i> İzlenen Filmler
+                </button>
+                <button class="tab-btn" onclick="switchTab('watchlist')">
+                    <i class="fas fa-bookmark"></i> İzlenecek Filmler
+                </button>
+            </div>
+        </div>
+
+        <!-- İzlenen Filmler Formu -->
+        <div class="add-movie-section" id="watchedForm">
+            <h2><i class="fas fa-plus-circle"></i> İzlenen Film Ekle</h2>
             <form id="movieForm">
                 <div class="form-group">
                     <label for="movieName">Film Adı:</label>
@@ -52,16 +64,88 @@
                     <textarea id="notes" placeholder="Film hakkında düşünceleriniz..."></textarea>
                 </div>
                 
-                <button type="submit"><i class="fas fa-save"></i> Film Ekle</button>
+                <button type="submit"><i class="fas fa-save"></i> İzlenen Film Ekle</button>
             </form>
         </div>
 
-        <div class="stats-section">
+        <!-- İzlenecek Filmler Formu -->
+        <div class="add-movie-section hidden" id="watchlistForm">
+            <h2><i class="fas fa-bookmark-plus"></i> İzlenecek Film Ekle</h2>
+            <form id="watchlistMovieForm">
+                <div class="form-group">
+                    <label for="watchlistMovieName">Film Adı:</label>
+                    <input type="text" id="watchlistMovieName" placeholder="İzlemek istediğiniz film adını girin..." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="whoSuggested">Kim Önerdi:</label>
+                    <select id="whoSuggested" required>
+                        <option value="">Seçin...</option>
+                        <option value="Faruk">Faruk</option>
+                        <option value="Azra">Azra</option>
+                        <option value="İkimiz">İkimiz</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="priority">Öncelik:</label>
+                    <select id="priority" required>
+                        <option value="">Seçin...</option>
+                        <option value="Yüksek">🔥 Yüksek - Hemen izleyelim!</option>
+                        <option value="Orta">⭐ Orta - Yakında izleriz</option>
+                        <option value="Düşük">📌 Düşük - Zamanımız olunca</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="genre">Tür/Kategori:</label>
+                    <select id="genre">
+                        <option value="">Seçin (İsteğe bağlı)</option>
+                        <option value="Aksiyon">🎬 Aksiyon</option>
+                        <option value="Komedi">😄 Komedi</option>
+                        <option value="Drama">🎭 Drama</option>
+                        <option value="Korku">👻 Korku</option>
+                        <option value="Romantik">❤️ Romantik</option>
+                        <option value="Bilim Kurgu">🚀 Bilim Kurgu</option>
+                        <option value="Gerilim">😱 Gerilim</option>
+                        <option value="Animasyon">🎨 Animasyon</option>
+                        <option value="Belgesel">📽️ Belgesel</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="platform">Nerede İzleyebiliriz:</label>
+                    <select id="platform">
+                        <option value="">Seçin (İsteğe bağlı)</option>
+                        <option value="Netflix">📺 Netflix</option>
+                        <option value="Amazon Prime">📦 Amazon Prime</option>
+                        <option value="Disney+">🏰 Disney+</option>
+                        <option value="HBO Max">🎭 HBO Max</option>
+                        <option value="YouTube">📱 YouTube</option>
+                        <option value="Apple TV">🍎 Apple TV</option>
+                        <option value="BluTV">💙 BluTV</option>
+                        <option value="PuhuTV">📺 PuhuTV</option>
+                        <option value="Sinema">🎪 Sinema</option>
+                        <option value="Diğer">🔍 Diğer</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="watchlistNotes">Notlar (İsteğe bağlı):</label>
+                    <textarea id="watchlistNotes" placeholder="Bu film hakkında notlarınız, neden izlemek istiyorsunuz?"></textarea>
+                </div>
+                
+                <button type="submit"><i class="fas fa-bookmark"></i> İzlenecek Listeye Ekle</button>
+            </form>
+        </div>
+
+        <!-- İzlenen Filmler İstatistikleri -->
+        <div class="stats-section" id="watchedStats">
             <div class="stat-card">
                 <i class="fas fa-video"></i>
                 <div class="stat-info">
                     <span class="stat-number" id="totalMovies">0</span>
-                    <span class="stat-label">Toplam Film</span>
+                    <span class="stat-label">İzlenen Film</span>
                 </div>
             </div>
             <div class="stat-card">
@@ -80,7 +164,33 @@
             </div>
         </div>
 
-        <div class="filter-section">
+        <!-- İzlenecek Filmler İstatistikleri -->
+        <div class="stats-section hidden" id="watchlistStats">
+            <div class="stat-card">
+                <i class="fas fa-bookmark"></i>
+                <div class="stat-info">
+                    <span class="stat-number" id="totalWatchlist">0</span>
+                    <span class="stat-label">İzlenecek Film</span>
+                </div>
+            </div>
+            <div class="stat-card priority-high">
+                <i class="fas fa-fire"></i>
+                <div class="stat-info">
+                    <span class="stat-number" id="highPriority">0</span>
+                    <span class="stat-label">Yüksek Öncelik</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-heart"></i>
+                <div class="stat-info">
+                    <span class="stat-number" id="mostWantedGenre">-</span>
+                    <span class="stat-label">En Çok İstenen Tür</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- İzlenen Filmler Filtreleme -->
+        <div class="filter-section" id="watchedFilter">
             <h3><i class="fas fa-filter"></i> Filtrele</h3>
             <div class="filter-controls">
                 <select id="filterBy">
@@ -99,14 +209,102 @@
             </div>
         </div>
 
-        <div class="movies-section">
-            <h2><i class="fas fa-list"></i> Film Listemiz</h2>
+        <!-- İzlenecek Filmler Filtreleme -->
+        <div class="filter-section hidden" id="watchlistFilter">
+            <h3><i class="fas fa-filter"></i> Filtrele</h3>
+            <div class="filter-controls">
+                <select id="watchlistFilterBy">
+                    <option value="all">Tüm Filmler</option>
+                    <option value="Faruk">Faruk'un Önerdiği</option>
+                    <option value="Azra">Azra'nın Önerdiği</option>
+                    <option value="İkimiz">İkimizin Önerdiği</option>
+                </select>
+                <select id="watchlistSortBy">
+                    <option value="priority-desc">Öncelik (Yüksek → Düşük)</option>
+                    <option value="priority-asc">Öncelik (Düşük → Yüksek)</option>
+                    <option value="date-desc">Tarih (Yeni → Eski)</option>
+                    <option value="date-asc">Tarih (Eski → Yeni)</option>
+                    <option value="name-asc">Ad (A → Z)</option>
+                    <option value="name-desc">Ad (Z → A)</option>
+                    <option value="genre">Türe Göre</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- İzlenen Filmler Listesi -->
+        <div class="movies-section" id="watchedMovies">
+            <h2><i class="fas fa-list"></i> İzlenen Filmler</h2>
             <div id="moviesList" class="movies-grid">
                 <div class="no-movies">
                     <i class="fas fa-film"></i>
                     <p>Henüz film eklenmemiş</p>
                     <p>İlk filminizi ekleyerek başlayın!</p>
                 </div>
+            </div>
+        </div>
+
+        <!-- İzlenecek Filmler Listesi -->
+        <div class="movies-section hidden" id="watchlistMovies">
+            <h2><i class="fas fa-bookmark"></i> İzlenecek Filmler</h2>
+            <div id="watchlistList" class="movies-grid">
+                <div class="no-movies">
+                    <i class="fas fa-bookmark"></i>
+                    <p>Henüz izlenecek film eklenmemiş</p>
+                    <p>İlk izlemek istediğiniz filmi ekleyerek başlayın!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- İzlendi Olarak İşaretle Modal -->
+    <div id="watchedModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-star"></i> Filmi İzlendi Olarak İşaretle</h3>
+                <button class="modal-close" onclick="closeWatchedModal()">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div id="modalMovieInfo" class="modal-movie-info">
+                    <!-- Film bilgisi buraya gelecek -->
+                </div>
+                
+                <form id="markWatchedForm">
+                    <div class="form-group">
+                        <label for="modalRating">Bu filme kaç puan veriyorsunuz? (1-10):</label>
+                        <div class="rating-container">
+                            <input type="range" id="modalRating" min="1" max="10" value="7">
+                            <span id="modalRatingValue">7</span>/10
+                        </div>
+                        <div class="rating-stars-preview" id="modalStarsPreview">
+                            <!-- Yıldızlar buraya gelecek -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="modalNotes">Film hakkında notlarınız:</label>
+                        <textarea id="modalNotes" placeholder="Bu filmi nasıl buldunuz? Özel anılarınız var mı?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="modalWhoAdded">Kim ekledi olarak kaydedilsin:</label>
+                        <select id="modalWhoAdded" required>
+                            <option value="">Seçin...</option>
+                            <option value="Faruk">Faruk</option>
+                            <option value="Azra">Azra</option>
+                            <option value="İkimiz">İkimiz</option>
+                        </select>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel" onclick="closeWatchedModal()">
+                            <i class="fas fa-times"></i> İptal
+                        </button>
+                        <button type="submit" class="btn-confirm">
+                            <i class="fas fa-check"></i> İzlendi Olarak Kaydet
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
