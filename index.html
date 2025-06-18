@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birlikte İzlediğimiz Filmler</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-film"></i> Birlikte İzlediğimiz Filmler</h1>
+            <p class="subtitle">Faruk ve Azra'nın film arşivi</p>
+            <div class="online-status">
+                <i class="fas fa-wifi" id="statusIcon"></i>
+                <span id="statusText">Bağlanıyor...</span>
+            </div>
+        </header>
+
+        <div class="add-movie-section">
+            <h2><i class="fas fa-plus-circle"></i> Yeni Film Ekle</h2>
+            <form id="movieForm">
+                <div class="form-group">
+                    <label for="movieName">Film Adı:</label>
+                    <input type="text" id="movieName" placeholder="Film adını girin..." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="whoAdded">Kim Ekledi:</label>
+                    <select id="whoAdded" required>
+                        <option value="">Seçin...</option>
+                        <option value="Faruk">Faruk</option>
+                        <option value="Azra">Azra</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rating">Puanımız (1-10):</label>
+                    <div class="rating-container">
+                        <input type="range" id="rating" min="1" max="10" value="5">
+                        <span id="ratingValue">5</span>/10
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Notlar (İsteğe bağlı):</label>
+                    <textarea id="notes" placeholder="Film hakkında düşünceleriniz..."></textarea>
+                </div>
+                
+                <button type="submit"><i class="fas fa-save"></i> Film Ekle</button>
+            </form>
+        </div>
+
+        <div class="stats-section">
+            <div class="stat-card">
+                <i class="fas fa-video"></i>
+                <div class="stat-info">
+                    <span class="stat-number" id="totalMovies">0</span>
+                    <span class="stat-label">Toplam Film</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-star"></i>
+                <div class="stat-info">
+                    <span class="stat-number" id="avgRating">0</span>
+                    <span class="stat-label">Ortalama Puan</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-trophy"></i>
+                <div class="stat-info">
+                    <span class="stat-number" id="bestMovie">-</span>
+                    <span class="stat-label">En İyi Film</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <h3><i class="fas fa-filter"></i> Filtrele</h3>
+            <div class="filter-controls">
+                <select id="filterBy">
+                    <option value="all">Tüm Filmler</option>
+                    <option value="Faruk">Faruk'un Eklediği</option>
+                    <option value="Azra">Azra'nın Eklediği</option>
+                </select>
+                <select id="sortBy">
+                    <option value="date-desc">Tarih (Yeni → Eski)</option>
+                    <option value="date-asc">Tarih (Eski → Yeni)</option>
+                    <option value="rating-desc">Puan (Yüksek → Düşük)</option>
+                    <option value="rating-asc">Puan (Düşük → Yüksek)</option>
+                    <option value="name-asc">Ad (A → Z)</option>
+                    <option value="name-desc">Ad (Z → A)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="movies-section">
+            <h2><i class="fas fa-list"></i> Film Listemiz</h2>
+            <div id="moviesList" class="movies-grid">
+                <div class="no-movies">
+                    <i class="fas fa-film"></i>
+                    <p>Henüz film eklenmemiş</p>
+                    <p>İlk filminizi ekleyerek başlayın!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
